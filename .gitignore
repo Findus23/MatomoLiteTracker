@@ -1,0 +1,10 @@
+.idea/
+piwik.js
+out.js
+out.min.js
+*.map
+node_modules
+dist
+example/
+!example/index.html
+!example/main.ts
