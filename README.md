@@ -16,8 +16,6 @@ That said, if you are interested in trying it out, I'd be interested in hearing 
 - much smaller (1KB gzipped with only the core code)
 - easier to bundle in applications
 
-
-
 ## Features
 
 - tracking page views
@@ -32,17 +30,17 @@ That said, if you are interested in trying it out, I'd be interested in hearing 
 - Campaign tracking
 - Search Tracking
 - Goal Tracking
-- manual Outlink Tracking
+- Outlink Tracking
 - manual ping
 - manual DoNotTrack detection
+- sendBeacon
 
 ## missing (yet)
 
 - non utf-8 pages
+- performance tracking
 - setCustomUrl
 - setReferrerUrl
-- automatic outlink tracking
-- event queue (every tracking request is sent immediatly when it is tracked)[^1]
 - HeartBeatTimer (automatic regular ping)
 
 ## missing (???)
@@ -51,6 +49,7 @@ That said, if you are interested in trying it out, I'd be interested in hearing 
 - Content Tracking
 - download tracking
 - setDomains
+- event queue (every tracking request is sent immediatly when it is tracked)[^1]
 
 ## missing (intentionally)
 

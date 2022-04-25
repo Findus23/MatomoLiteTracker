@@ -1,8 +1,9 @@
-import {documentAlias} from "./aliases";
+import {documentAlias, navigatorAlias} from "./aliases";
 import {boolToIntBool, getCurrentURL} from "./url";
 import type {CustomDimensionName, CustomDimensions, IntBoolean, LinkType} from "./types";
 import type {BrowserFeatures} from "./browserfeatures";
 import {generateUniqueId} from "./util";
+import type {PerformanceMetric} from "./performancetracking";
 
 
 // the query paramters the Matomo API expects to recieve
@@ -66,6 +67,13 @@ interface Request {
 interface PageViewRequest extends Request {
     // Title
     action_name: string
+    pf_net?: number
+    pf_srv?: number
+    pf_tfr?: number
+    pf_dm1?: number
+    pf_dm2?: number
+    pf_onl?: number
+
 }
 
 interface EventRequest extends Request {
@@ -106,6 +114,8 @@ export class MatomoLiteTracker {
     siteID: number
     matomoURL: string
     phpFileName: string = "matomo.php"
+    useSendBeacon: boolean = false
+    performanceMetric?: PerformanceMetric
     userID?: string
     browserFeatures?: BrowserFeatures
     customDimensions?: CustomDimensions
@@ -163,6 +173,16 @@ export class MatomoLiteTracker {
         this.pageViewID = generateUniqueId()
         const parameters = this.getRequest() as PageViewRequest
         parameters.action_name = customTitle ? customTitle : documentAlias.title
+        const performanceMetric = this.performanceMetric
+        if (performanceMetric) {
+            console.log(performanceMetric)
+            Object.entries(performanceMetric).forEach(([key, value]) => {
+                if (typeof value !== "undefined") {
+                    parameters[key] = value
+                }
+            })
+
+        }
         this.sendRequest(parameters)
     }
 
@@ -203,7 +223,7 @@ export class MatomoLiteTracker {
     trackLink(sourceUrl: string, linkType: LinkType) {
         const parameters = this.getRequest() as OutlinkRequest
         parameters[linkType] = sourceUrl
-        this.sendRequest(parameters)
+        this.sendRequest(parameters, true)
     }
 
     ping() {
@@ -212,28 +232,32 @@ export class MatomoLiteTracker {
         this.sendRequest(parameters)
     }
 
-    sendRequest(parameters: Request) {
+    sendRequest(parameters: Request, forceBeacon: boolean = false) {
         console.log(parameters)
         const requestMethod = this.requestMethod
         const params = new URLSearchParams(parameters)
         let url = this.matomoURL
             + (this.matomoURL.endsWith("/") ? "" : "/")
             + this.phpFileName
-        if (requestMethod === "GET") {
-            url += "?" + params.toString()
-        }
-        const options: RequestInit = {
-            method: requestMethod,
-            mode: "no-cors",
-            cache: "no-cache",
-            credentials: "omit",
-        }
-        if (requestMethod === "POST") {
-            options.body = params
-        }
         console.log(url)
-        fetch(url, options).then(value => {
-            console.info(value)
-        })
+        if (this.useSendBeacon || forceBeacon) {
+            navigatorAlias.sendBeacon(url, params)
+        } else {
+            if (requestMethod === "GET") {
+                url += "?" + params.toString()
+            }
+            const options: RequestInit = {
+                method: requestMethod,
+                mode: "no-cors",
+                cache: "no-cache",
+                credentials: "omit",
+            }
+            if (requestMethod === "POST") {
+                options.body = params
+            }
+            fetch(url, options).then(value => {
+                console.info(value)
+            })
+        }
     }
 }

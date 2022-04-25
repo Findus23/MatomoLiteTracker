@@ -6,7 +6,8 @@
   "module": "dist/tracker.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc && node --loader ts-node/esm build.ts",
+    "serve": "node --loader ts-node/esm build.ts serve"
   },
   "devDependencies": {
     "esbuild": "^0.14.38",
