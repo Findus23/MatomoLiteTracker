@@ -14,4 +14,4 @@ matomo.customDimensions = {
 }
 
 enableLinkTracking(matomo, defaultDownloadFileExtensions)
-matomo.trackPageview()
+matomo.trackPageviewOnPageload()

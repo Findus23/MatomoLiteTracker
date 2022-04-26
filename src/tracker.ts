@@ -255,4 +255,12 @@ export class MatomoLiteTracker {
             fetch(url, options).then()
         }
     }
+
+    trackPageviewOnPageload(customTitle?: string) {
+        if (document.readyState == "complete") {
+            this.trackPageview(customTitle)
+        } else {
+            document.addEventListener("DOMContentLoaded", () => this.trackPageview(customTitle))
+        }
+    }
 }
