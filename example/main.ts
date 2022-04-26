@@ -5,7 +5,7 @@ import {PerformanceMetric} from "../src/performancetracking";
 
 const matomo = new MatomoLiteTracker("https://dev.matomo", 1)
 matomo.performanceMetric = new PerformanceMetric()
-console.log(matomo.performanceMetric)
+
 const features = new BrowserFeatures()
 features.addBrowserPlugins(detectBrowserPlugins())
 matomo.browserFeatures = features

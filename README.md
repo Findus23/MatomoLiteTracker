@@ -34,11 +34,12 @@ That said, if you are interested in trying it out, I'd be interested in hearing 
 - manual ping
 - manual DoNotTrack detection
 - sendBeacon
+- Performance Tracking
+
 
 ## missing (yet)
 
 - non utf-8 pages
-- performance tracking
 - setCustomUrl
 - setReferrerUrl
 - HeartBeatTimer (automatic regular ping)
