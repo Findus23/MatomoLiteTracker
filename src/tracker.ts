@@ -175,7 +175,6 @@ export class MatomoLiteTracker {
         parameters.action_name = customTitle ? customTitle : documentAlias.title
         const performanceMetric = this.performanceMetric
         if (performanceMetric) {
-            console.log(performanceMetric)
             Object.entries(performanceMetric).forEach(([key, value]) => {
                 if (typeof value !== "undefined") {
                     parameters[key] = value
@@ -233,13 +232,11 @@ export class MatomoLiteTracker {
     }
 
     sendRequest(parameters: Request, forceBeacon: boolean = false) {
-        console.log(parameters)
         const requestMethod = this.requestMethod
         const params = new URLSearchParams(parameters)
         let url = this.matomoURL
             + (this.matomoURL.endsWith("/") ? "" : "/")
             + this.phpFileName
-        console.log(url)
         if (this.useSendBeacon || forceBeacon) {
             navigatorAlias.sendBeacon(url, params)
         } else {
@@ -255,9 +252,7 @@ export class MatomoLiteTracker {
             if (requestMethod === "POST") {
                 options.body = params
             }
-            fetch(url, options).then(value => {
-                console.info(value)
-            })
+            fetch(url, options).then()
         }
     }
 }

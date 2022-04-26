@@ -30,10 +30,8 @@ export class PerformanceMetric {
         if (!performanceData) {
             return;
         }
-        console.log(performanceData)
         if (performanceData.connectEnd && performanceData.fetchStart) {
             this.pf_net = diff(performanceData.connectEnd, performanceData.fetchStart)
-            console.info(performanceData.connectEnd - performanceData.fetchStart)
         }
         if (performanceData.responseStart && performanceData.requestStart) {
             this.pf_srv = diff(performanceData.responseStart, performanceData.requestStart)

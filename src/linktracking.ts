@@ -43,7 +43,6 @@ export function enableLinkTracking(
     }
 
     function processClick(element: HTMLAnchorElement) {
-        console.log(element)
         if (!element.hasAttribute("href")) {
             return
         }
