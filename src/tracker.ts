@@ -117,6 +117,7 @@ export class MatomoLiteTracker {
     useSendBeacon: boolean = false
     performanceMetric?: PerformanceMetric
     userID?: string
+    customURL?: string
     browserFeatures?: BrowserFeatures
     customDimensions?: CustomDimensions
     requestMethod: "GET" | "POST" = "GET"
@@ -136,7 +137,7 @@ export class MatomoLiteTracker {
             h: now.getHours(),
             m: now.getMinutes(),
             s: now.getSeconds(),
-            url: getCurrentURL(),
+            url: this.customURL ? this.customURL : getCurrentURL(),
             send_image: 1
         }
         const referrer = documentAlias.referrer
